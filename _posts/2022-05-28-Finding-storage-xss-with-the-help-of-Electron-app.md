@@ -28,15 +28,16 @@ After installing the app, I Start searching way to intercept the HTTP traffic fr
 `http://127.0.0.1:8080` for burp you can change it.
 
 
+## Unrestricted file upload
+
+
 After all done and the request was showing in burp suite, I start go through the app, Eventually i found we can upload image and the image location was on `https://cdn.exemple.com/image_path`.
 
 
 The cdn.exemple.com was just s3 bucket, So now we need to try to upload html or svg to get xss, But there was filter on the file extension only png,jpg... allowed.
 
 
-
-
-## Bypass
+### Bypass
 
 The other method I tried, is to set file extension to png, change content type to text/html, then but the xss payload in the image content.
 
