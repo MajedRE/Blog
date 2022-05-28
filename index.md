@@ -1,4 +1,4 @@
-Bug bounty writup
+Bug bounty writeup
 
 
 <ul>
