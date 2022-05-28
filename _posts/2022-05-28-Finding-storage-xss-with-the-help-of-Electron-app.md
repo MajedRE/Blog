@@ -72,7 +72,7 @@ Now combine the two open redirect we found.
 First redirect the user to generate access_token, then redirect the user to second open redirect on the login page, from the login page redirect the user to `https://cdn.exemple.com/xss_file_path`, That contains our payload there.
 
 
+---------------------------------
+My Twitter account :
 
-
-
-
+`https://twitter.com/Majed_Refaea`
