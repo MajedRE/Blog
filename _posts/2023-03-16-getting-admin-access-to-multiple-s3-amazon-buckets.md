@@ -60,7 +60,7 @@ I Access the debugger page and click Turn Glimpse On, Then reload the page, and 
 #  Second phase
 
 
-Glimpse has multiple taps one of these taps is configuration, this tap contains sensitive information on of this information I found was amazon Access Key ID and Secret Access Key ID.
+Glimpse has multiple taps one of these taps is configuration, this tap contains sensitive information one of this information I found was amazon Access Key ID and Secret Access Key ID.
 
 
 
