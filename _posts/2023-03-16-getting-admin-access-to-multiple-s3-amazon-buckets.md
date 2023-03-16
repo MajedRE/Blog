@@ -41,7 +41,7 @@ when I opened the subdomain it did not resolve, the other way I tried was to ope
 
 
 
-Now it's Time to a directory and files brute force, suddenly I found Sitecore CMS Login page, as you think trying to enter the default password and username, but this does not work, after some research, I found that Sitecore has debugger called `Glimpse ` and it's accessible under `Sitecore/Glimpse.axd`
+Now it's Time to a directory and files brute force, suddenly I found Sitecore CMS Login page, as you think trying to use the default password and username, but this does not work, after some research, I found that Sitecore has debugger called `Glimpse ` and it's accessible under `Sitecore/Glimpse.axd`
 
 
 
