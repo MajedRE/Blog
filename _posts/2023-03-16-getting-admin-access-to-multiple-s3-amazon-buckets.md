@@ -3,7 +3,7 @@
 Hi everyone, in this write-up, I will talk about a bug I found on a private program, I will name it hidden-bug.com.
 
 
-When first time I get invited to the program, They mentioned in the scope section everything belong to `hidden-bug` in scope, so my initial step is to identify the top-level domain (com,net,org...) using different approach.
+When first time I get invited to the program, And while reading the scope, They mentioned in the scope section everything belong to `hidden-bug` in scope, so my initial step is to identify the top-level domain (com,net,org...) using different approach.
 
 
 ### 1- Google dork
