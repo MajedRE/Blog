@@ -36,7 +36,7 @@ After finding the top-level domain, the next step is to enumerate the root domai
 So I did my recon, and I found an interesting top-level domain it was `cloud`, I start  subdomain enumeration on the root domain `hidden-bug.cloud`,one of the subdomain I found was `dev-123.hidden-bug.cloud`.
 
 
-when I opened the subdomain it did not resolve, the other way I tried was to open the subdomain using his ip instead of the hostname, actually, this trick worked, and the IP was hosting a static shop website, and they use the asp framework for the application.
+when I opened the subdomain it did not resolve, the other way I tried was to open the subdomain using the ip instead of the hostname, actually, this trick worked, and the IP was hosting a static shop website, and they use the asp framework for the application.
 
 
 
