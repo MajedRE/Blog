@@ -67,7 +67,9 @@ First, upload the XSS payload. The payload will contain JavaScript code that fil
 Now, combine the two open redirects we found.
 
 1- Redirect the user to generate the access token.
+
 2- Then, redirect the user to the second open redirect on the login page.
+
 3- From the login page, redirect the user to `https://cdn.example.com/xss_file_path`, which contains our XSS payload.
 
 
