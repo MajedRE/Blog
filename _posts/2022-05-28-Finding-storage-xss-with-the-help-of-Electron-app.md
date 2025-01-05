@@ -50,7 +50,7 @@ One of the APIs involves redirecting the user with a random code, which is then 
 
 After several attempts to modify the redirect URL, nothing worked. The only allowed redirect URL was `https://example.com/`, but we could still set the path to any URL in the application (e.g., `https://example.com/any_path/*`).
 
-If we found another open redirect on https://example.com/any_path/, we could redirect the user to `https://cdn.example.com/image_path/`, where our XSS payload was located.
+If we found another open redirect on `https://example.com/any_path/`, we could redirect the user to `https://cdn.example.com/image_path/`, where our XSS payload was located.
 
 While searching, I found that the login page had a redirect parameter, like this: `https://example.com/login?redirect=`. After some trial and error, I discovered that the redirect URL was only allowed to point to subdomains of example.com. This was actually useful for completing the exploit.
 
