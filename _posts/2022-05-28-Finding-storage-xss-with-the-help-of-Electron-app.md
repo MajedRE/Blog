@@ -1,22 +1,17 @@
 ### Finding storage xss with the help of Electron app
 
-Hi, This is my first writeup, I hope you like it.
+Hi, this is my first write-up. I hope you like it!
 
+In this post, I will explain how I discovered a Stored XSS vulnerability that allows an attacker to steal a user's access token.
 
-I Will explain how i found Stored xss, Allow attacker to steal users' access_token.
-
-
-
-let's call the website as `https://exemple.com`
+Let's refer to the website as https://example.com.
 
 
 ## Intercept Electron app traffic 
 
+While working on `example.com`, I discovered that they provide a desktop app created using Electron (Chromium and Node.js environment).
 
-while I was working on `exemple.com`, I Found they provide desktop app, The app was created using Electron app (Chromium and Node.js environment).
-
-
-After installing the app, I Start searching way to intercept the HTTP traffic from the app, I tried first using Wireshark but didn't work, the Another way i found It was easy to use:
+After installing the app, I started searching for a way to intercept the HTTP traffic from the app. Initially, I tried using Wireshark, but it didn't work. Then I found an easier way to do it:
 
 1- First we open the app file location.
 2- Open linux shell or  windows powershell in the current directory.
@@ -31,45 +26,49 @@ After installing the app, I Start searching way to intercept the HTTP traffic fr
 ## Unrestricted file upload
 
 
-After all done and the request was showing in burp suite, I start go through the app, Eventually i found we can upload image and the image location was on `https://cdn.exemple.com/image_path`.
+Once I had set up the interception and could see the requests in Burp Suite, I started navigating through the app. Eventually, I found that users could upload images, and the image URL would be on `https://cdn.example.com/image_path`.
 
-
-The cdn.exemple.com was just s3 bucket, So now we need to try to upload html or svg to get xss, But there was filter on the file extension only png,jpg... allowed.
+The cdn.example.com domain was essentially an S3 bucket, so I tried uploading an HTML or SVG file to check for XSS. However, the file extension filter only allowed PNG, JPG, etc.
 
 
 ### Bypass
 
-The other method I tried, is to set file extension to png, change content type to text/html, then but the xss payload in the image content.
+I tried bypassing this filter by changing the file extension to `.png` while setting the content type to `text/html`. I then inserted the XSS payload inside the image content.
 
-Now i have Stored xss on cdn.exemple.com, but cdn.exemple.com doesn't have much impact.
+Now I had Stored XSS on `cdn.example.com`, but the impact was limited since the domain itself didn’t provide much functionality.
+
+
 
 
 ![1-14](https://user-images.githubusercontent.com/47279932/170807342-8d8fffc9-e5d0-4867-bc59-c7661147c58a.png)
 
 ## Steal users access_ token using open redirect. 
 
-Back to https://exemple.com i was work on, The application has two different api version, Each api has different way to authenticate.
+Going back to `https://example.com`, I found that the application uses two different API versions, and each has a different way of authenticating users.
 
-The authentication on one of the api was, Redirect the user with random code, Exchange the code with access_token, Then redirect user with access_token, Exchange the access_token with jwt token, Now lets check if the we can redirect the access_token to our server.
+One of the APIs involves redirecting the user with a random code, which is then exchanged for an access token. After that, the user is redirected with the access token, and it is exchanged for a JWT token. I wanted to check if I could redirect the access token to my server.
 
+After several attempts to modify the redirect URL, nothing worked. The only allowed redirect URL was `https://example.com/`, but we could still set the path to any URL in the application (e.g., `https://example.com/any_path/*`).
 
-After all the try to change the redirect url nothing works, We can only use `https://exemple.com/` as the redirect url, But still we can set the redirect to any path in the application, for example `https://exemple.com/any_path/*`.
+If we found another open redirect on https://example.com/any_path/, we could redirect the user to `https://cdn.example.com/image_path/`, where our XSS payload was located.
 
-
-So if we found other open redirect on `https://exemple.com/any_path/` we can redirect the user to `https://cdn.exemple.com/imag_path/` which contain our xss payload.
-
-while searching i found the login page has redirect parameter `https://exemple.com/login?redirect=`, After some try and error, there was check and only allowed to set the redirect url to subdomain of exemple.com, But this is something we want, now we can complete the exploit.
+While searching, I found that the login page had a redirect parameter, like this: `https://example.com/login?redirect=`. After some trial and error, I discovered that the redirect URL was only allowed to point to subdomains of example.com. This was actually useful for completing the exploit.
 
 
 ## Full exploit
 
 ### Step one:
-We upload our xss payload, the payload content will be javascript code, the javascript code filter the access_ token from URL hash and Then send the access_token to our server.
+
+First, upload the XSS payload. The payload will contain JavaScript code that filters the access token from the URL hash and sends it to our server.
+
 
 ### Step two:
-Now combine the two open redirect we found.
 
-First redirect the user to generate access_token, then redirect the user to second open redirect on the login page, from the login page redirect the user to `https://cdn.exemple.com/xss_file_path`, That contains our payload there.
+Now, combine the two open redirects we found.
+
+1- Redirect the user to generate the access token.
+2- Then, redirect the user to the second open redirect on the login page.
+3- From the login page, redirect the user to `https://cdn.example.com/xss_file_path`, which contains our XSS payload.
 
 
 ---------------------------------
